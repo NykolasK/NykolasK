@@ -28,15 +28,6 @@
 
 ---
 
-<h2>Projetos em destaque</h2>
-<ul>
-  <li><strong>Nome do Projeto 1:</strong> descrição breve e tecnologias usadas. <a href="#">Ver projeto</a></li>
-  <li><strong>Nome do Projeto 2:</strong> descrição breve e tecnologias usadas. <a href="#">Ver projeto</a></li>
-  <li><strong>Nome do Projeto 3:</strong> descrição breve e tecnologias usadas. <a href="#">Ver projeto</a></li>
-</ul>
-
----
-
 <h2>Contatos</h2>
 <div align="center">
   <a href="https://www.linkedin.com/in/nykolaskauan/" target="_blank">
