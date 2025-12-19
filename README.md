@@ -64,29 +64,6 @@ const nykolas = {
 
 </div>
 
----
-
-### 📊 GitHub Analytics
-
-<div align="center">
-  <img height="180em" src="https://github-readme-stats.vercel.app/api?username=NykolasK&show_icons=true&theme=tokyonight&include_all_commits=true&count_private=true&hide_border=true&bg_color=0D1117"/>
-  <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=NykolasK&layout=compact&langs_count=8&theme=tokyonight&hide_border=true&bg_color=0D1117"/>
-</div>
-
-<div align="center">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=NykolasK&theme=tokyonight&hide_border=true&background=0D1117" alt="GitHub Streak" />
-</div>
-
----
-
-### 🏆 GitHub Trophies
-
-<div align="center">
-  <img src="https://github-profile-trophy.vercel.app/?username=NykolasK&theme=tokyonight&no-frame=true&no-bg=true&margin-w=4&column=7" alt="GitHub Trophies" />
-</div>
-
----
-
 ### 📈 Contribution Graph
 
 <picture>
@@ -114,8 +91,6 @@ Adoro trocar ideias sobre tecnologia, projetos e novas oportunidades. Se você q
 <div align="center">
   
   ### 💬 "Code is like humor. When you have to explain it, it's bad." – Cory House
-  
-  ![Snake animation](https://raw.githubusercontent.com/NykolasK/NykolasK/output/github-contribution-grid-snake-dark.svg)
   
   **⭐ Deixe uma estrela nos repositórios que você curtir!**
   
