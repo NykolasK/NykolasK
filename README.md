@@ -23,7 +23,6 @@ const nykolas = {
   code: ["Java", "Python", "JavaScript", "TypeScript"],
   interests: ["System Automation", "Web Development", "Gamification", "Open Source"],
   currentFocus: "Building scalable solutions and optimizing workflows",
-  funFact: "Acredito que código limpo é poesia para máquinas 🎭"
 };
 ```
 
