@@ -1,98 +1,147 @@
 <div align="center">
-  
-  ![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&size=32&duration=3000&pause=1000&color=3B82F6&center=true&vCenter=true&random=false&width=600&lines=Hey+%F0%9F%91%8B+I'm+Nykolas;Tech+Enthusiast+%26+Developer;Building+Digital+Solutions;Always+Learning+%F0%9F%9A%80)
-  
-</div>
 
-<div align="center">
-  <img src="https://komarev.com/ghpvc/?username=NykolasK&style=for-the-badge&color=3B82F6" alt="Profile Views" />
+![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&size=26&duration=3400&pause=1000&color=3B82F6&center=true&vCenter=true&width=640&lines=Co-founder+%26+CTO+at+Nnayas+eSports;Systems+Architecture;Platform+Engineering;Process+Automation)
+
+<p>
+  <a href="https://www.linkedin.com/in/nykolaskauan/"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
+  <a href="mailto:nykolaskauansilva@gmail.com"><img src="https://img.shields.io/badge/Email-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" /></a>
+  <a href="https://www.nnayas.com"><img src="https://img.shields.io/badge/Nnayas-3B82F6?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Nnayas" /></a>
+  <img src="https://komarev.com/ghpvc/?username=NykolasK&style=for-the-badge&color=3B82F6&label=PROFILE+VIEWS" alt="Profile views" />
+</p>
+
 </div>
 
 ---
+# Nykolas Kauan
 
-### 🧑‍💻 Sobre Mim
+Co-founder and Chief Technology Officer of [Nnayas eSports](https://www.nnayas.com), a Brazilian esports organization operating competitive teams, influencer management, marketing, and a digital solutions practice.
 
-Olá! Sou **Nykolas**, apaixonado por transformar ideias em código e código em soluções reais. Atuo como desenvolvedor e analista de TI, onde combino técnica e criatividade para resolver problemas complexos de forma elegante.
+I have held technical ownership since the company's inception: architecture, infrastructure, engineering process, and technical roadmap. I run the technical organization as a single engineer, which sets the design constraint for everything below. Systems have to be operable by one person, so correctness is enforced by tooling and tests rather than by headcount.
 
-Meu trabalho envolve desde a gestão de sistemas até automação de processos e desenvolvimento de aplicações que fazem diferença. Acredito que tecnologia bem aplicada pode simplificar o complexo e tornar o impossível, possível.
+---
 
-```javascript
-const nykolas = {
-  location: "Cascavel, PR 🇧🇷",
-  role: "IT Analyst & Developer",
-  code: ["Java", "Python", "JavaScript", "TypeScript"],
-  interests: ["System Automation", "Web Development", "Gamification", "Open Source"],
-  currentFocus: "Building scalable solutions and optimizing workflows",
-};
+## Internal Business Platform
+
+**Company-wide ERP, built in-house.** In active development, running in production.
+
+A modular management system covering internal operations end to end, with an external portal for client accounts. The platform is proprietary, so what follows describes architecture and engineering practice rather than product detail.
+
+**Architecture**
+
+- **NestJS + Prisma + PostgreSQL 16** backend. 123 domain models, 85 versioned migrations, 69 feature modules, 458 routes.
+- **Next.js 15 + React + Tailwind 4** frontend. 145 routed pages.
+- **Turborepo monorepo** with shared `types` and `config` packages, enforcing a single source of truth for DTOs across API and web.
+- **Authorization** combines role (6 roles) with a per-user, per-module permission matrix (`NONE | VIEW | EDIT | MANAGE`, with delete as an independent grant). Route policies are generated into an inventory document by a script, and a unit test fails the build when the inventory and the runtime policies diverge. Authorization drift cannot pass CI silently.
+- **Event-driven automation** via the Outbox Pattern. Domain events are written in the same transaction as the business change, then published by a worker as a signed envelope carrying `HMAC-SHA256` over the payload with key-id rotation support. The consumer verifies the signature in constant time, enforces a delivery window, and reserves `eventId` in PostgreSQL for idempotency before routing. At-least-once delivery with exactly-once effects.
+- **10 domain event types** feeding 8 automation flows in a self-hosted workflow engine, split between event-triggered and scheduled.
+- **Object storage** through S3-compatible presigned URLs, keeping file payloads off the API process.
+- **Hardening**: Helmet, request throttling and rate limiting, runtime DTO validation, and a client-bundle boundary check that fails the build if a server-only environment variable reaches browser code.
+
+**Verification and operations**
+
+- 230 test files across unit, database-integration, and Playwright end-to-end suites.
+- Dedicated test database with a guard script that refuses to run destructive suites against a non-test connection string.
+- Data integrity and relational auditing scripts run as their own quality gate.
+- Secret scanning wired into the security verification step.
+- Containerized deployment with build-triggered releases, automated migrations, managed TLS, and a database exposed only on the internal network.
+
+---
+
+## Nayatsu
+
+**Minecraft server network.** Beta, 50+ players onboarded.
+
+A multi-server network running **50+ plugins in production**, combining plugins written in-house with third-party plugins forked and patched where upstream behavior did not fit the network.
+
+- **Java 21**. A **Velocity** proxy plugin coordinates the network, with **Paper** plugins running gameplay.
+- Systems maintained across the network: matchmaking queue, cosmetics, minigames, Skywars, leaderboards, dialogue engine, and party games.
+- The Skywars engine carries **17 NMS compatibility modules spanning Minecraft 1.8 through 1.21**, isolating version-specific server internals behind a common interface so gameplay code stays version-agnostic.
+- **Redis Pub/Sub** as the cross-process message bus between the web layer and the game network, carrying VIP entitlements, in-game currency, and account linking on dedicated channels. The subscriber runs on a supervised daemon thread with an automatic reconnect loop, because a dropped Redis connection must not require a server restart.
+- **MySQL** for persistence, **Maven** and **Gradle** builds, self-managed **VPS** provisioning and tuning.
+
+---
+
+## Selected Client and Product Work
+
+**WhatsApp ticketing and customer service platform.** Deployed a customer support system built on a fork of an open-source ticketing engine, modified for the client's workflow. Containerized with Docker Compose: PostgreSQL 16, Redis, and a background worker service, separated into backend and frontend deployments.
+
+**Nnayas corporate website.** Zero-trust edge architecture. Stateless **Vite + React** frontend holding no credentials, with all business logic, validation, and authorization enforced in a **Hono** API running on **Cloudflare Workers**, backed by **PostgreSQL** through **Drizzle ORM**.
+
+**WordPress e-commerce.** Complete storefront delivered for a large client, including theme, catalog, and checkout.
+
+**Clinic management system.** Multi-package monorepo MVP for practice management.
+
+**Discord bots.** `discord.py` bots using slash commands, modal forms, and interactive component views for community operations.
+
+---
+
+## Stack
+
+```
+Languages      TypeScript, Java 21, Python, JavaScript, SQL
+Backend        NestJS, Node.js, Hono, Express, Django-style REST design
+Frontend       Next.js 15, React, Tailwind CSS 4, Vite
+Data           PostgreSQL, MySQL, Prisma, Drizzle
+Messaging      Redis Pub/Sub, Outbox Pattern, HMAC-signed webhooks, n8n
+Minecraft      Velocity, Paper, NMS multi-version support, Maven, Gradle
+Infrastructure Docker, Docker Compose, Coolify, Cloudflare, Nginx, TLS, VPS
+CI/CD          GitHub Actions, automated migrations, quality gates
+Testing        Vitest, Playwright, database-integration suites
+Auth           better-auth, RBAC with per-module permission matrices
+Tooling        pnpm, Turborepo, ESLint, Git
 ```
 
-**🎯 O que eu faço:**
-- Desenvolvimento de soluções digitais robustas e escaláveis
-- Automação de fluxos operacionais para aumentar eficiência
-- Gestão e otimização de sistemas corporativos
-- Criação de experiências digitais gamificadas
+---
 
-**🌱 Atualmente aprendendo:**
-- Arquitetura de microsserviços e containers
-- Práticas avançadas de DevOps
-- Desenvolvimento pessoal e calistenia (porque corpo são, mente sã! 💪)
+## Engineering Principles
+
+- **Authorization is generated and tested, never remembered.** A permission model that lives only in reviewers' heads regresses. Route policies are emitted as an artifact and asserted by a test.
+- **Events are transactional.** An outbox write in the same transaction as the business change is the difference between an automation that is reliable and one that is merely usually correct.
+- **Delivery guarantees are explicit.** At-least-once transport plus consumer-side idempotency, stated in the design rather than assumed.
+- **Recurring manual work becomes a service.** Any operation performed by hand on a regular cadence is a candidate for automation.
+- **Leverage compensates for scale.** A single-engineer organization requires tooling and process to carry the load that headcount otherwise would.
+- **Decisions are documented.** Operational runbooks, environment catalogs, and architecture records exist so the next engineer starts from a known state.
 
 ---
 
-### 🛠️ Tech Stack
+## Currently Deepening
+
+- Distributed systems: consistency models, failure modes, partition behavior
+- Message broker internals: delivery semantics, dead-letter strategies, consumer backpressure
+- System design patterns: CQRS, Saga, circuit breaker
+- Multi-tenant data isolation and row-level authorization models
+
+---
+
+## Activity
 
 <div align="center">
 
-#### Languages
-![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+<img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=NykolasK&layout=compact&langs_count=8&hide_border=true&theme=tokyonight&bg_color=0D1117&title_color=3B82F6" alt="Top languages" />
 
-#### Frontend
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
-
-#### Backend & Tools
-![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
-![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+<img src="https://github-readme-activity-graph.vercel.app/graph?username=NykolasK&bg_color=0D1117&color=3B82F6&line=3B82F6&point=FFFFFF&area=true&hide_border=true" alt="Contribution activity" width="98%" />
 
 </div>
 
-### 📈 Contribution Graph
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/NykolasK/NykolasK/output/pacman-contribution-graph-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/NykolasK/NykolasK/output/pacman-contribution-graph.svg">
-  <img alt="Contribution Graph" src="https://raw.githubusercontent.com/NykolasK/NykolasK/output/pacman-contribution-graph.svg" width="100%">
-</picture>
+> Nearly all of the work described above lives in private repositories. Architecture and technical decisions are available for discussion directly.
 
 ---
 
-### 🤝 Vamos Conectar?
+## Contact
 
-Adoro trocar ideias sobre tecnologia, projetos e novas oportunidades. Se você quer conversar sobre desenvolvimento, colaborar em algum projeto ou apenas bater um papo sobre tech, me chama!
+Open to discussion on systems architecture, engineering leadership, esports and creator-economy technology, and technical partnerships.
 
-<div align="center">
-  
-  [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/nykolaskauan/)
-  [![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/nykolas_k/)
-  [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/NykolasK)
-  
-</div>
-
----
+**LinkedIn:** [nykolaskauan](https://www.linkedin.com/in/nykolaskauan/)
+**Email:** [nykolaskauansilva@gmail.com](mailto:nykolaskauansilva@gmail.com)
+**Location:** Cascavel, Paraná, Brazil
 
 <div align="center">
-  
-  ### 💬 "Code is like humor. When you have to explain it, it's bad." – Cory House
-  
-  **⭐ Deixe uma estrela nos repositórios que você curtir!**
-  
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=100&section=footer"/>
-  
+
+<br>
+
+> *"Simplicity is a prerequisite for reliability."*
+> Edsger W. Dijkstra
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:3B82F6,100:1E40AF&height=110&section=footer" alt="" />
+
 </div>
