@@ -1,6 +1,6 @@
 <div align="center">
 
-![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&size=26&duration=3400&pause=1000&color=3B82F6&center=true&vCenter=true&width=640&lines=Co-founder+%26+CTO+at+Nnayas+eSports;Systems+Architecture;Platform+Engineering;Process+Automation)
+![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&size=26&duration=3400&pause=1000&color=3B82F6&center=true&vCenter=true&width=440&lines=CTO+at+Nnayas+eSports;Systems+Architecture;Platform+Engineering;Process+Automation)
 
 <p>
   <a href="https://www.linkedin.com/in/nykolaskauan/"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
@@ -9,12 +9,15 @@
   <img src="https://komarev.com/ghpvc/?username=NykolasK&style=for-the-badge&color=3B82F6&label=PROFILE+VIEWS" alt="Profile views" />
 </p>
 
+<sub><a href="./README.pt-br.md">Leia em português</a></sub>
+
 </div>
 
 ---
+
 # Nykolas Kauan
 
-Co-founder and Chief Technology Officer of [Nnayas eSports](https://www.nnayas.com), a Brazilian esports organization operating competitive teams, influencer management, marketing, and a digital solutions practice.
+Chief Technology Officer of [Nnayas eSports](https://www.nnayas.com), a Brazilian esports organization operating competitive teams, influencer management, marketing, and a digital solutions practice.
 
 I have held technical ownership since the company's inception: architecture, infrastructure, engineering process, and technical roadmap. I run the technical organization as a single engineer, which sets the design constraint for everything below. Systems have to be operable by one person, so correctness is enforced by tooling and tests rather than by headcount.
 
