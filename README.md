@@ -9,8 +9,6 @@
   <img src="https://komarev.com/ghpvc/?username=NykolasK&style=for-the-badge&color=3B82F6&label=PROFILE+VIEWS" alt="Profile views" />
 </p>
 
-<sub><a href="./README.pt-br.md">Leia em português</a></sub>
-
 </div>
 
 ---
